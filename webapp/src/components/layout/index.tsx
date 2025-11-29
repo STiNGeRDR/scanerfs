@@ -2,7 +2,7 @@ import { createRef } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 
 // Импортируем функции-хелперы для генерации маршрутов (обеспечивают типобезопасность и централизованное управление путями)
-import { getHomePageRoute } from '../../lib/routes'
+import { getEventRegistrationPageRoute, getHomePageRoute } from '../../lib/routes'
 
 import css from './index.module.scss'
 
@@ -20,6 +20,11 @@ export const Layout = () => {
               Главная
             </Link>
             <br />
+          </li>
+          <li>
+            <Link className={css.link} to={getEventRegistrationPageRoute()}>
+              Регистрация событий
+            </Link>
           </li>
         </ul>
       </div>
