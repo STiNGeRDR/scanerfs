@@ -1,0 +1,37 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id        String   @id @default(uuid())
+    nick      String   @unique
+    name      String   @default("")
+    password  String
+    createdAt DateTime @default(now())
+}
+
+model FileSystemLocal {
+    id        String   @id @default(uuid())
+    fileName  String   @unique
+    pathLocal String
+    pathBD    String
+    status    Boolean
+    createdAt DateTime @default(now())
+}
+
+model FileSystemReference {
+    id       String @id @default(uuid())
+    fileName String @unique
+    pathBD   String
+}
+
+model CheckHistory {
+    id        String   @id @default(uuid())
+    result    String
+    createdAt DateTime @default(now())
+}
