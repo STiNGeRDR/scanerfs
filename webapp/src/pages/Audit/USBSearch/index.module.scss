@@ -1,0 +1,426 @@
+.container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.title {
+  color: #2c3e50;
+  margin-bottom: 8px;
+  font-size: 28px;
+}
+
+.subtitle {
+  color: #7f8c8d;
+  font-size: 16px;
+  margin: 0;
+}
+
+.controls {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.refreshButton {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgb(52, 152, 219, 0.3);
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgb(52, 152, 219, 0.4);
+    background: linear-gradient(135deg, #2980b9, #3498db);
+  }
+
+  &:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+  }
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px;
+  color: #3498db;
+  font-weight: 500;
+}
+
+.loadingSpinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.result {
+  margin-top: 24px;
+}
+
+.resultHeader {
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 32px;
+
+  &.success {
+    background: linear-gradient(135deg, #d4f7e7, #ecf9f4);
+    border: 1px solid #2ecc71;
+  }
+
+  &.error {
+    background: linear-gradient(135deg, #f7d4d4, #f9ecec);
+    border: 1px solid #e74c3c;
+  }
+}
+
+.resultStatus {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.resultIcon {
+  font-size: 32px;
+}
+
+.resultMessage {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 20px;
+}
+
+.summary {
+  margin: 4px 0 0 0;
+  color: #7f8c8d;
+  font-size: 14px;
+}
+
+.devicesSection {
+  margin-bottom: 32px;
+}
+
+.sectionTitle {
+  color: #34495e;
+  margin-bottom: 20px;
+  font-size: 18px;
+  border-bottom: 2px solid #ecf0f1;
+  padding-bottom: 8px;
+}
+
+.devicesTable {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  background: white;
+}
+
+// Таблица
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead {
+    background: #f8f9fa;
+
+    th {
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 600;
+      color: #2c3e50;
+      border-bottom: 2px solid #e9ecef;
+      font-size: 14px;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid #e9ecef;
+      transition: background 0.2s;
+
+      &:hover {
+        background: #f8f9fa;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    td {
+      padding: 12px 16px;
+      color: #34495e;
+      font-size: 14px;
+    }
+  }
+}
+
+.timestamp {
+  font-family: monospace;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.dateCell {
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.timeCell {
+  white-space: nowrap;
+  font-family: monospace;
+}
+
+.productCell {
+  max-width: 200px;
+
+  strong {
+    color: #2c3e50;
+  }
+
+  .vidPid {
+    display: block;
+    font-size: 11px;
+    color: #7f8c8d;
+    font-family: monospace;
+    margin-top: 2px;
+  }
+}
+
+.manufacturerCell {
+  color: #34495e;
+}
+
+.serialCell {
+  max-width: 150px;
+
+  code {
+    font-size: 11px;
+    background: #f8f9fa;
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.typeCell {
+  text-align: center;
+}
+
+.actionConnect {
+  color: #27ae60;
+  font-weight: 600;
+
+  .actionIcon {
+    margin-right: 4px;
+  }
+}
+
+.actionDisconnect {
+  color: #e74c3c;
+  font-weight: 600;
+
+  .actionIcon {
+    margin-right: 4px;
+  }
+}
+
+.deviceId {
+  font-family: monospace;
+  font-size: 13px;
+  color: #3498db;
+
+  code {
+    background: #f8f9fa;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #3498db;
+  }
+}
+
+.noDevices {
+  text-align: center;
+  padding: 60px 40px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border: 1px solid #e9ecef;
+}
+
+.noDevicesIcon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.noDevices h4 {
+  color: #2c3e50;
+  margin: 0 0 12px 0;
+  font-size: 18px;
+}
+
+.noDevices p {
+  color: #7f8c8d;
+  margin: 0;
+}
+
+.errorSection {
+  padding: 20px;
+  background: #fdedec;
+  border-radius: 8px;
+  border: 1px solid #fadbd8;
+  margin-bottom: 24px;
+}
+
+.errorTitle {
+  color: #c0392b;
+  margin: 0 0 12px 0;
+  font-size: 16px;
+}
+
+.errorMessage {
+  color: #e74c3c;
+  font-family: monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.rawOutputSection {
+  margin-top: 24px;
+}
+
+.details {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.detailsSummary {
+  padding: 12px 16px;
+  background: #f8f9fa;
+  cursor: pointer;
+  font-weight: 500;
+  color: #3498db;
+  list-style: none;
+
+  &:hover {
+    background: #ecf0f1;
+  }
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+}
+
+.rawOutput {
+  background: #2c3e50;
+  color: #ecf0f1;
+  padding: 16px;
+  margin: 0;
+  font-family: monospace;
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.initialState {
+  text-align: center;
+  padding: 60px 40px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border: 2px dashed #bdc3c7;
+}
+
+.initialIcon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.initialTitle {
+  color: #2c3e50;
+  margin: 0 0 16px 0;
+  font-size: 20px;
+}
+
+.initialText {
+  color: #7f8c8d;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.initialTextSmall {
+  font-size: 13px;
+  color: #6c757d;
+  margin-top: 8px;
+}
+
+.sourceInfo {
+  margin-left: 12px;
+  padding: 2px 8px;
+  background: #e8f5e9;
+  color: #2e7d32;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.note {
+  font-size: 12px;
+  color: #f39c12;
+  margin-top: 12px;
+}
+
+// Адаптивность
+@media (width <= 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .table {
+    font-size: 12px;
+
+    th,
+    td {
+      padding: 8px 12px;
+    }
+  }
+
+  .timestamp {
+    font-size: 11px;
+  }
+}

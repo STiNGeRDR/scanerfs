@@ -72,3 +72,15 @@ export const validateRules = async (rules: any) => {
     return { isValid: false, errors: ['Неизвестная ошибка валидации'] }
   }
 }
+
+export const yChecksTrpsinput = yup.object({
+  checks: yup.string().min(1).required(),
+})
+
+// Тип для ответа
+export type ScanFileSystemResponse = {
+  success: boolean
+  message: string
+  output: string | null
+  error: string | null
+}

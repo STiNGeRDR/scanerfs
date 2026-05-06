@@ -1,14 +1,28 @@
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
 import { trpc } from '../lib/trpc'
 // @index('./**/index.ts', f => `import { ${f.path.split('/').slice(0, -1).pop()}TrpcRoute } from '${f.path.split('/').slice(0, -1).join('/')}'`)
-import { dumpFileSystemTrpcRoute } from './dumpFileSystem'
-// import { scanFileSystemTrpcRoute } from './scanFileSystem'
+import { scanAccountingSettingsTrpcRoute } from './scanAccountingSettings'
+import { scanBaseInfoTrpcRoute } from './scanBaseInfo'
+import { scanDeviceControlTrpcRoute } from './scanDeviceControl'
+import { scanEventRegistrationTrpcRoute } from './scanEventRegistration'
+import { scanFileSystemTrpcRoute } from './scanFileSystem'
+import { scanIntegrityControlTrpcRoute } from './scanIntegrityControl'
+import { scanMashingDataTrpcRoute } from './scanMashingData'
+import { scanPasswordPolicyTrpcRoute } from './scanPasswordPolicy'
+import { scanUSBDeviceTrpcRoute } from './scanUSBDevice'
 // @endindex
 
 export const trpcRouter = trpc.router({
   // @index('./**/index.ts', f => `${f.path.split('/').slice(0, -1).pop()}: ${f.path.split('/').slice(0, -1).pop()}TrpcRoute,`)
-  dumpFileSystem: dumpFileSystemTrpcRoute,
-  // scanFileSystem: scanFileSystemTrpcRoute,
+  scanAccountingSettings: scanAccountingSettingsTrpcRoute,
+  scanBaseInfo: scanBaseInfoTrpcRoute,
+  scanDeviceControl: scanDeviceControlTrpcRoute,
+  scanEventRegistration: scanEventRegistrationTrpcRoute,
+  scanFileSystem: scanFileSystemTrpcRoute,
+  scanIntegrityControl: scanIntegrityControlTrpcRoute,
+  scanMashingData: scanMashingDataTrpcRoute,
+  scanPasswordPolicy: scanPasswordPolicyTrpcRoute,
+  scanUSBDevice: scanUSBDeviceTrpcRoute,
   // @endindex
 })
 
