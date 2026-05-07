@@ -1,0 +1,175 @@
+{
+  "version": "1.0",
+  "name": "Astra Linux 1.7 Password Policy",
+  "description": "Проверка парольной политики Astra Linux 1.7",
+  "checks": {
+    "passwordPolicy": {
+      "name": "Парольная политика",
+      "description": "Проверка настроек парольной политики",
+      "policy": {
+        "PASS_MAX_DAYS": {
+          "value": 90,
+          "severity": "medium",
+          "description": "Максимальное количество дней действия пароля"
+        },
+        "PASS_MIN_DAYS": {
+          "value": 1,
+          "severity": "medium",
+          "description": "Минимальное количество дней между сменами пароля"
+        },
+        "PASS_WARN_AGE": {
+          "value": 7,
+          "severity": "medium",
+          "description": "Количество дней предупреждения перед истечением срока пароля"
+        },
+        "dcredit": {
+          "value": 1,
+          "severity": "medium",
+          "description": "Количество цифр (отрицательное = минимум)"
+        },
+        "difok": {
+          "value": 3,
+          "severity": "medium",
+          "description": "Минимальное количество измененных символов"
+        },
+        "minLength": {
+          "value": 8,
+          "severity": "medium",
+          "description": "Минимальная длина пароля"
+        },
+        "passwordHistory": {
+          "value": true,
+          "severity": "medium",
+          "description": "Хранение истории паролей"
+        },
+        "storedPasswords": {
+          "value": 5,
+          "severity": "medium",
+          "description": "Количество хранимых паролей"
+        },
+        "rootEnforcement": {
+          "value": true,
+          "severity": "medium",
+          "description": "Политика применяется к root"
+        },
+        "uppercaseChars": {
+          "value": -1,
+          "severity": "medium",
+          "description": "Количество заглавных букв (отрицательное = минимум)"
+        },
+        "lowercaseChars": {
+          "value": -1,
+          "severity": "medium",
+          "description": "Количество строчных букв (отрицательное = минимум)"
+        },
+        "otherChars": {
+          "value": -1,
+          "severity": "medium",
+          "description": "Количество специальных символов (отрицательное = минимум)"
+        },
+        "usernameCheck": {
+          "value": true,
+          "severity": "medium",
+          "description": "Запрещает использовать имя пользователя в пароле"
+        },
+        "gecosCheck": {
+          "value": true,
+          "severity": "medium",
+          "description": "Запрещает использовать информацию из GECOS в пароле"
+        },
+        "rootPasswordCheck": {
+          "value": true,
+          "severity": "medium",
+          "description": "Применять политику паролей к пользователю root"
+        },
+        "failedAttempts": {
+          "value": 5,
+          "severity": "medium",
+          "description": "Количество неудачных попыток до блокировки"
+        },
+        "lockTime": {
+          "value": 10,
+          "severity": "medium",
+          "description": "Время блокировки в секундах"
+        },
+        "unlockTime": {
+          "value": 10,
+          "severity": "medium",
+          "description": "Время автоматической разблокировки в секундах"
+        },
+        "perUserSettings": {
+          "value": false,
+          "severity": "medium",
+          "description": "Индивидуальный счетчик неудачных попыток для каждого пользователя"
+        },
+        "noReset": {
+          "value": false,
+          "severity": "medium",
+          "description": "Не сбрасывать счетчик неудачных попыток"
+        },
+        "magicRoot": {
+          "value": false,
+          "severity": "medium",
+          "description": "Не учитывать неудачные попытки для root"
+        }
+      }
+    },
+    "accountingSettings": {
+      "name": "Параметры учетных записей",
+      "description": "Проверка настроек параметров учетных записей",
+      "policy": {
+        "addExtraGroups": {
+          "value": true,
+          "severity": "medium",
+          "description": "Добавлять пользователя в дополнительные группы (ADD_EXTRA_GROUPS)"
+        },
+        "dhome": {
+          "value": "/home",
+          "severity": "medium",
+          "description": "Местонахождение домашнего каталога (DHOME)"
+        },
+        "dshell": {
+          "value": "/bin/bash",
+          "severity": "medium",
+          "description": "Оболочка по умолчанию (DSHELL)"
+        },
+        "extraGroups": {
+          "value": "astra-admin users person user video admsys plugdev audio user1 dialout",
+          "groupList": [
+            "astra-admin",
+            "users",
+            "person",
+            "user",
+            "video",
+            "admsys",
+            "plugdev",
+            "audio",
+            "user1",
+            "dialout"
+          ],
+          "description": "Дополнительные группы (EXTRA_GROUPS)"
+        },
+        "screenSaverDelay": {
+          "value": 600,
+          "severity": "medium",
+          "description": "Блокировка сеанса после бездействия (ScreenSaverDelay)"
+        },
+        "skel": {
+          "value": "/etc/skel",
+          "severity": "medium",
+          "description": "Каталог шаблонов (SKEL)"
+        },
+        "usergroups": {
+          "value": true,
+          "severity": "medium",
+          "description": "Создавать одноименную группу для пользователя (USERGROUPS)"
+        },
+        "usersGid": {
+          "value": "100",
+          "severity": "medium",
+          "description": "Первичная группа (USERS_GID)"
+        }
+      }
+    }
+  }
+}

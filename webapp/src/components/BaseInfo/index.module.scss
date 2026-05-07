@@ -1,0 +1,12 @@
+.mainContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.blockInfo {
+  padding: 1em;
+  border: 1px solid black;
+  flex: 1 1 auto;
+  margin: 1em;
+  border-radius: 10px;
+}
