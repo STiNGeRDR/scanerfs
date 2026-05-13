@@ -53,17 +53,17 @@
           "description": "Политика применяется к root"
         },
         "uppercaseChars": {
-          "value": -1,
+          "value": 1,
           "severity": "medium",
           "description": "Количество заглавных букв (отрицательное = минимум)"
         },
         "lowercaseChars": {
-          "value": -1,
+          "value": 1,
           "severity": "medium",
           "description": "Количество строчных букв (отрицательное = минимум)"
         },
         "otherChars": {
-          "value": -1,
+          "value": 1,
           "severity": "medium",
           "description": "Количество специальных символов (отрицательное = минимум)"
         },
@@ -111,6 +111,22 @@
           "value": false,
           "severity": "medium",
           "description": "Не учитывать неудачные попытки для root"
+        }
+      }
+    },
+    "mashingData": {
+      "name": "Затирание данных",
+      "discription": "Проверка настройки политики очистки данных",
+      "policy": {
+        "astra-swapwiper-control": {
+          "value": "АКТИВНО",
+          "severity": "medium",
+          "description": "Очистка раздела подкачки (swap)"
+        },
+        "astra-secdel-control": {
+          "value": "АКТИВНО",
+          "severity": "medium",
+          "description": "Затирание освобождаемых разделов жесткого диска"
         }
       }
     },

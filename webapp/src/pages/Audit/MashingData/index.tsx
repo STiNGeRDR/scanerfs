@@ -5,21 +5,26 @@ import { trpc } from '../../../lib/trpc'
 
 import css from './index.module.scss'
 
-type ServiceStatus = {
-  service: string
-  status: string
+// Тип для политики
+type MashingDataPolicy = {
+  version: string
+  name: string
+  description: string
+  policy: {
+    [key: string]: {
+      description: string
+      value: string
+      severity: string
+    }
+  }
 }
 
 type ScanResult = {
   success: boolean
   message: string
   error?: string | null
-  output?: string | null
-  services?: {
-    'astra-secdel-control'?: { active: boolean; status: string }
-    'astra-swapwiper-control'?: { active: boolean; status: string }
-  }
-  allActive?: boolean
+  rawOutput?: string | null
+  policy?: MashingDataPolicy | null
 }
 
 export const MashingDataPage = () => {
@@ -28,7 +33,9 @@ export const MashingDataPage = () => {
   const scanMutation = trpc.scanMashingData.useMutation({
     onSuccess: (data) => {
       setScanResult(data as ScanResult)
-      sessionStorage.setItem('mashingData', JSON.stringify(data))
+      if (data.policy) {
+        sessionStorage.setItem('mashingData', JSON.stringify(data.policy))
+      }
     },
     onError: (error) => {
       setScanResult({
@@ -43,30 +50,41 @@ export const MashingDataPage = () => {
     scanMutation.mutate({ scan: true })
   }
 
-  const parseStatusOutput = (output: string): ServiceStatus[] => {
-    if (!output) {
-      return []
+  const getSeverityClass = (severity: string): string => {
+    switch (severity) {
+      case 'high':
+        return css.highSeverity
+      case 'medium':
+        return css.mediumSeverity
+      case 'low':
+        return css.lowSeverity
+      default:
+        return ''
     }
-    const lines = output.split('\n').filter((line) => line.trim())
-    return lines.map((line) => {
-      const parts = line.split(':').map((s) => s.trim())
-      if (parts.length >= 2) {
-        return { service: parts[0], status: parts[1] }
-      }
-      return { service: 'Неизвестно', status: line }
-    })
   }
 
-  const getServiceIcon = (active: boolean) => {
-    return active ? '🔒' : '🔓'
+  const getStatusIcon = (value: string): string => {
+    return value === 'АКТИВНО' ? '✅' : '❌'
   }
 
-  const getServiceDescription = (serviceName: string): string => {
-    const descriptions: Record<string, string> = {
-      'astra-secdel-control': 'Гарантированное удаление данных с HDD',
-      'astra-swapwiper-control': 'Очистка раздела подкачки (swap)',
+  const getServiceName = (key: string): string => {
+    const names: Record<string, string> = {
+      'astra-secdel-control': 'Служба гарантированного удаления данных',
+      'astra-swapwiper-control': 'Служба очистки раздела подкачки',
     }
-    return descriptions[serviceName] || 'Служба затирания данных'
+    return names[key] || key
+  }
+
+  const isAnyActive = (policy: MashingDataPolicy): boolean => {
+    return Object.values(policy.policy).some(
+      (item) => item.value === 'АКТИВНО'
+    )
+  }
+
+  const isAllActive = (policy: MashingDataPolicy): boolean => {
+    return Object.values(policy.policy).every(
+      (item) => item.value === 'АКТИВНО'
+    )
   }
 
   return (
@@ -74,12 +92,20 @@ export const MashingDataPage = () => {
       <div className={css.container}>
         <div className={css.header}>
           <h2 className={css.title}>Статус служб гарантированного удаления данных</h2>
-          <p className={css.subtitle}>Проверка состояния служб затирания данных в системе Astra Linux</p>
+          <p className={css.subtitle}>
+            Проверка состояния служб затирания данных в системе Astra Linux
+          </p>
         </div>
 
         <div className={css.controls}>
-          <button onClick={handleScan} disabled={scanMutation.isPending} className={css.scanButton}>
-            {scanMutation.isPending ? 'Проверка статуса...' : '🔄 Проверить статус служб затирания'}
+          <button
+            onClick={handleScan}
+            disabled={scanMutation.isPending}
+            className={css.scanButton}
+          >
+            {scanMutation.isPending
+              ? 'Проверка статуса...'
+              : '🔄 Проверить статус служб затирания'}
           </button>
 
           {scanMutation.isPending && (
@@ -90,67 +116,124 @@ export const MashingDataPage = () => {
           )}
         </div>
 
-        {scanResult && (
+        {scanResult?.policy && (
           <div className={css.result}>
-            <div className={`${css.resultHeader} ${scanResult.success ? css.success : css.error}`}>
+            <div
+              className={`${css.resultHeader} ${
+                scanResult.success ? css.success : css.error
+              }`}
+            >
               <div className={css.resultStatus}>
-                <span className={css.resultIcon}>{scanResult.success ? '✅' : '❌'}</span>
+                <span className={css.resultIcon}>
+                  {scanResult.success ? '✅' : '❌'}
+                </span>
                 <div>
-                  <h3 className={css.resultMessage}>{scanResult.message}</h3>
-                  {scanResult.allActive !== undefined && (
+                  <h3 className={css.resultMessage}>{scanResult.policy.name}</h3>
+                  <p className={css.resultDescription}>
+                    {scanResult.policy.description}
+                  </p>
+                  <span className={css.resultVersion}>
+                    Версия: {scanResult.policy.version}
+                  </span>
+                  {scanResult.success && (
                     <p className={css.summary}>
-                      {scanResult.allActive ? 'Все службы активны ✓' : 'Некоторые службы неактивны'}
+                      {isAllActive(scanResult.policy)
+                        ? '✅ Все службы активны'
+                        : isAnyActive(scanResult.policy)
+                        ? '⚠️ Некоторые службы неактивны'
+                        : '❌ Все службы неактивны'}
                     </p>
                   )}
                 </div>
               </div>
             </div>
 
-            {scanResult.output && (
-              <div className={css.servicesSection}>
-                <h4 className={css.sectionTitle}>Детальный статус служб:</h4>
+            <div className={css.servicesSection}>
+              <h4 className={css.sectionTitle}>Детальный статус служб:</h4>
 
-                <div className={css.servicesGrid}>
-                  {parseStatusOutput(scanResult.output).map((service, index) => {
-                    const isActive = service.status === 'АКТИВНО'
+              <div className={css.servicesGrid}>
+                {Object.entries(scanResult.policy.policy).map(
+                  ([serviceKey, serviceData]) => {
+                    const isActive = serviceData.value === 'АКТИВНО'
 
                     return (
-                      <div key={index} className={`${css.serviceCard} ${isActive ? css.active : css.inactive}`}>
+                      <div
+                        key={serviceKey}
+                        className={`${css.serviceCard} ${
+                          isActive ? css.active : css.inactive
+                        }`}
+                      >
                         <div className={css.serviceHeader}>
-                          <div className={css.serviceIcon}>{getServiceIcon(isActive)}</div>
+                          <div className={css.serviceIcon}>
+                            {getStatusIcon(serviceData.value)}
+                          </div>
                           <div>
-                            <h5 className={css.serviceName}>{service.service}</h5>
-                            <p className={css.serviceDescription}>{getServiceDescription(service.service)}</p>
+                            <h5 className={css.serviceName}>
+                              {getServiceName(serviceKey)}
+                            </h5>
+                            <p className={css.serviceDescription}>
+                              {serviceData.description}
+                            </p>
                           </div>
                         </div>
 
                         <div className={css.serviceStatus}>
-                          <span className={`${css.statusBadge} ${isActive ? css.statusActive : css.statusInactive}`}>
-                            {service.status}
+                          <span
+                            className={`${css.statusBadge} ${
+                              isActive ? css.statusActive : css.statusInactive
+                            } ${getSeverityClass(serviceData.severity)}`}
+                          >
+                            {serviceData.value}
                           </span>
                         </div>
 
                         <div className={css.serviceDetails}>
                           <div className={css.statusRow}>
-                            <span className={css.statusLabel}>Текущее состояние:</span>
-                            <span className={`${css.statusValue} ${isActive ? css.active : css.inactive}`}>
-                              {service.status}
+                            <span className={css.statusLabel}>
+                              Идентификатор:
+                            </span>
+                            <span className={css.statusValue}>
+                              {serviceKey}
+                            </span>
+                          </div>
+                          <div className={css.statusRow}>
+                            <span className={css.statusLabel}>
+                              Уровень критичности:
+                            </span>
+                            <span className={`${css.statusValue} ${getSeverityClass(serviceData.severity)}`}>
+                              {serviceData.severity === 'high' ? 'Высокий' : 
+                               serviceData.severity === 'medium' ? 'Средний' : 'Низкий'}
                             </span>
                           </div>
 
                           {!isActive && (
                             <div className={css.recommendation}>
-                              <span className={css.recommendationType}>⚠️ Требуется действие</span>
-                              <code className={css.actionCommand}>sudo systemctl start {service.service}</code>
+                              <span className={css.recommendationType}>
+                                ⚠️ Требуется действие
+                              </span>
+                              <code className={css.actionCommand}>
+                                sudo systemctl start {serviceKey}
+                              </code>
+                              <code className={css.actionCommand}>
+                                sudo astra-secdel-swapwiper start
+                              </code>
+                            </div>
+                          )}
+
+                          {isActive && (
+                            <div className={css.recommendationSuccess}>
+                              <span className={css.recommendationSuccessType}>
+                                ✅ Служба работает корректно
+                              </span>
                             </div>
                           )}
                         </div>
                       </div>
                     )
-                  })}
-                </div>
+                  }
+                )}
               </div>
-            )}
+            </div>
 
             {scanResult.error && (
               <div className={css.errorSection}>
@@ -159,20 +242,35 @@ export const MashingDataPage = () => {
               </div>
             )}
 
+            {scanResult.rawOutput && (
+              <div className={css.rawOutputSection}>
+                <details className={css.details}>
+                  <summary className={css.detailsSummary}>
+                    <span>📄 Показать сырой вывод команды</span>
+                  </summary>
+                  <pre className={css.rawOutput}>{scanResult.rawOutput}</pre>
+                </details>
+              </div>
+            )}
+
             <div className={css.infoSection}>
               <h4 className={css.infoTitle}>Важная информация:</h4>
               <ul className={css.infoList}>
                 <li>
-                  <strong>astra-secdel-control</strong> - служба гарантированного удаления данных с накопителей HDD.
-                  Неэффективна на SSD.
+                  <strong>astra-secdel-control</strong> - служба гарантированного
+                  удаления данных с накопителей HDD. Неэффективна на SSD.
                 </li>
                 <li>
-                  <strong>astra-swapwiper-control</strong> - служба очистки раздела подкачки (swap) от конфиденциальных
-                  данных при выключении системы.
+                  <strong>astra-swapwiper-control</strong> - служба очистки
+                  раздела подкачки (swap) от конфиденциальных данных при
+                  выключении системы.
                 </li>
                 <li>
                   Для активации служб при загрузке выполните:
-                  <code>sudo systemctl enable astra-secdel-control astra-swapwiper-control</code>
+                  <code>
+                    sudo systemctl enable astra-secdel-control
+                    astra-swapwiper-control
+                  </code>
                 </li>
                 <li>
                   Для ручного запуска всех служб:
@@ -192,8 +290,8 @@ export const MashingDataPage = () => {
             <div className={css.initialIcon}>🧹</div>
             <h3 className={css.initialTitle}>Начните проверку статуса служб</h3>
             <p className={css.initialText}>
-              Нажмите кнопку выше, чтобы проверить состояние служб гарантированного удаления данных в системе Astra
-              Linux.
+              Нажмите кнопку выше, чтобы проверить состояние служб
+              гарантированного удаления данных в системе Astra Linux.
             </p>
           </div>
         )}

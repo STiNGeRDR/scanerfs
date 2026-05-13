@@ -127,12 +127,12 @@ export const AccountingSettingsPage = () => {
               </div>
             </div>
             
-            {scanResult.success && scanResult.settings && (
+            {scanResult.success && scanResult.policy && (
               <div className={css.settingsResults}>
                 <div className={css.settingsGroup}>
                   <div className={css.settingsItems}>
                     {settingsList.map((item, index) => {
-                      const setting = scanResult.settings[item.key]
+                      const setting = scanResult.policy[item.key]
                       if (!setting) {return null}
                       
                       // ИСПРАВЛЕНО: Не используем setting.value для extragroups
