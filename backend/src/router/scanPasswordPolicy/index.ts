@@ -28,6 +28,11 @@ type PasswordPolicy = {
   [key: string]: any
 }
 
+// Функция для преобразования отрицательных значений в положительные
+const normalizeValue = (value: number): number => {
+  return Math.abs(value)
+}
+
 export const scanPasswordPolicyTrpcRoute = trpc.procedure
   .input(scanPasswordPolicyTrpcInput)
   .mutation(async ({ input }) => {
@@ -133,23 +138,23 @@ function parsePasswordPolicy(commonPassword: string, commonAuth: string, loginDe
       description: 'Минимальная длина пароля',
     }
 
-    // 5-9. Проверки символов
+    // 5-9. Проверки символов (преобразуем отрицательные значения в положительные)
     const lcreditMatch = pamCracklibLine.match(/lcredit=(-?\d+)/)
     policy.lowercaseChars = {
-      value: lcreditMatch ? parseInt(lcreditMatch[1]) : 0,
-      description: 'Количество строчных букв (отрицательное = минимум)',
+      value: lcreditMatch ? normalizeValue(parseInt(lcreditMatch[1])) : 0,
+      description: 'Количество строчных букв',
     }
 
     const ucreditMatch = pamCracklibLine.match(/ucredit=(-?\d+)/)
     policy.uppercaseChars = {
-      value: ucreditMatch ? parseInt(ucreditMatch[1]) : 0,
-      description: 'Количество заглавных букв (отрицательное = минимум)',
+      value: ucreditMatch ? normalizeValue(parseInt(ucreditMatch[1])) : 0,
+      description: 'Количество заглавных букв',
     }
 
     const dcreditMatch = pamCracklibLine.match(/dcredit=(-?\d+)/)
     policy.dcredit = {
-      value: dcreditMatch ? parseInt(dcreditMatch[1]) : 0,
-      description: 'Количество цифр (отрицательное = минимум)',
+      value: dcreditMatch ? normalizeValue(parseInt(dcreditMatch[1])) : 0,
+      description: 'Количество цифр',
     }
 
     const difokMatch = pamCracklibLine.match(/difok=(\d+)/)
@@ -160,8 +165,8 @@ function parsePasswordPolicy(commonPassword: string, commonAuth: string, loginDe
 
     const ocreditMatch = pamCracklibLine.match(/ocredit=(-?\d+)/)
     policy.otherChars = {
-      value: ocreditMatch ? parseInt(ocreditMatch[1]) : 0,
-      description: 'Количество специальных символов (отрицательное = минимум)',
+      value: ocreditMatch ? normalizeValue(parseInt(ocreditMatch[1])) : 0,
+      description: 'Количество специальных символов',
     }
   }
 

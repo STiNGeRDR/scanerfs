@@ -1,202 +1,224 @@
 * {
-  font-size: 16px;
+  box-sizing: border-box;
 }
 
 .mainContainer {
-  width: 95%;
-  margin: 16px 1em;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
+  width: 100%;
+  margin: 20px 0;
   background: #ffffff;
-  box-shadow: 0 1px 3px rgb(0, 0, 0, 0.05);
+  border-radius: 12px;
   overflow: hidden;
-  transition: box-shadow 0.3s ease;
-
-  &:hover {
-    box-shadow: 0 2px 6px rgb(0, 0, 0, 0.08);
-  }
-}
-
-h2 {
-  padding: 1em 0 1em 2em;
-  font-size: 2em;
-  font-weight: 600;
-  background: #f3f4f6;
-  color: #1f2937;
-  margin: 0;
-  letter-spacing: -0.3px;
-  border-bottom: 1px solid #e5e7eb;
 }
 
 .checkInfo {
-  padding: 1.2em 1.5em;
-  margin-top: 1em;
-  border: none;
-  font-size: 2em;
-  border-radius: 10px 10px 0 0;
-  background: #f3f4f6;
-  color: #374151;
-  font-weight: 500;
-  border-bottom: 1px solid #e5e7eb;
+  padding: 20px 24px;
+  background: #fafbfc;
+  border-bottom: 1px solid #e9ecef;
+
+  h2 {
+    margin: 0 0 8px 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a1a2e;
+  }
 
   h3 {
+    margin: 0 0 4px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #16213e;
+  }
+
+  p {
     margin: 0;
-    font-size: 1rem;
-
-    &:first-child {
-      font-weight: 700;
-      color: #1f2937;
-      margin-bottom: 0.5em;
-      font-size: 1.1rem;
-      border-left: 3px solid #9ca3af;
-      padding-left: 12px;
-    }
-
-    &:last-child {
-      font-weight: 400;
-      color: #6b7280;
-      font-size: 0.9rem;
-    }
+    font-size: 14px;
+    color: #6c757d;
+    line-height: 1.4;
   }
 }
 
 .checkBlock {
-  margin: 0 2.5% 2em;
+  margin-bottom: 24px;
   background: white;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 1px 2px rgb(0, 0, 0, 0.05);
-  transition: box-shadow 0.2s ease;
+  border: 1px solid #eef2f6;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Таблица
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+thead {
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+
+th {
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 13px;
+  color: #495057;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #e9ecef;
+}
+
+td {
+  padding: 12px 16px;
+  color: #2c3e50;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+
+tbody tr {
+  transition: background-color 0.2s ease;
 
   &:hover {
-    box-shadow: 0 2px 4px rgb(0, 0, 0, 0.08);
+    background-color: #fafbfc;
   }
 
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    background: white;
-    font-size: 0.9rem;
-
-    table,
-    th,
-    td {
-      border: 2px solid #c4c2c2;
-    }
-
-    th {
-      background: #f9fafb;
-      color: #374151;
-      font-weight: 600;
-      padding: 12px;
-      text-align: left;
-      font-size: 0.85rem;
-      letter-spacing: 0.2px;
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    td {
-      padding: 10px 12px;
-      color: #4b5563;
-      transition: background-color 0.2s ease;
-    }
-
-    tbody tr {
-      transition: background-color 0.2s ease;
-
-      &:hover {
-        background-color: #f9fafb;
-      }
-
-      &:nth-child(even) {
-        background-color: #fefefe;
-      }
-    }
-
-    .namePolicy {
-      width: 40%;
-      font-weight: 500;
-      color: #374151;
-    }
-
-    .criticValue {
-      width: 10%;
-      text-align: center;
-    }
-
-    .referenceValue {
-      width: 25%;
-      font-family: 'Courier New', monospace;
-      background-color: #fefce8;
-      color: #713f12;
-    }
-
-    .realValue {
-      width: 25%;
-      font-family: 'Courier New', monospace;
-      font-weight: 500;
-    }
+  &:last-child td {
+    border-bottom: none;
   }
+}
+
+// Колонки
+.namePolicy {
+  font-weight: 500;
+  color: #2c3e50;
+  font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+  font-size: 13px;
+  width: 30%;
+}
+
+.criticValue {
+  width: 15%;
+  text-align: left;
+}
+
+.referenceValue {
+  width: 25%;
+  font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+  font-size: 13px;
+  color: #2c3e50;
+}
+
+.realValue {
+  width: 30%;
+  font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  position: relative;
+}
+
+// Бейджи критичности
+.highSeverity {
+  display: inline-block;
+  padding: 4px 10px;
+  background: #fee2e2;
+  color: #c0392b;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.mediumSeverity {
+  display: inline-block;
+  padding: 4px 10px;
+  background: #fff3e0;
+  color: #e67e22;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.lowSeverity {
+  display: inline-block;
+  padding: 4px 10px;
+  background: #e8f5e9;
+  color: #27ae60;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
 // Подсветка несовпадающих значений
 .mismatchValue {
-  background-color: #fee2e2 !important;
-  color: #991b1b !important;
-  font-weight: 600 !important;
-  border-left: 3px solid #dc2626 !important;
-  animation: pulse 0.5s ease;
+  background-color: #fef2f2 !important;
+
+  td {
+    background-color: #fef2f2 !important;
+  }
+
+  &:hover td {
+    background-color: #fee2e2 !important;
+  }
 }
 
-.highlightMismatch {
+.realValue.mismatchValue {
   position: relative;
 }
 
 .warningIcon {
-  font-size: 14px;
   margin-left: 8px;
+  font-size: 13px;
   display: inline-block;
+  color: #e74c3c;
 }
 
-// Анимация для привлечения внимания
+// Анимация для предупреждения
 @keyframes pulse {
-  0% {
-    background-color: #fee2e2;
+  0%,
+  100% {
+    opacity: 1;
   }
 
   50% {
-    background-color: #fecaca;
-  }
-
-  100% {
-    background-color: #fee2e2;
+    opacity: 0.6;
   }
 }
 
-// Сдержанные цвета для критичности
-.highSeverity {
-  color: #991b1b;
-  font-weight: 600;
-  background-color: #fef2f2;
-}
+// Адаптивность для мобильных
+@media (width <= 768px) {
+  .checkInfo {
+    padding: 16px;
+  }
 
-.mediumSeverity {
-  color: #b45309;
-  font-weight: 500;
-  background-color: #fffbeb;
-}
+  th,
+  td {
+    padding: 10px 12px;
+  }
 
-.lowSeverity {
-  color: #166534;
-  font-weight: 500;
-  background-color: #f0fdf4;
-}
+  .namePolicy,
+  .criticValue,
+  .referenceValue,
+  .realValue {
+    width: auto;
+  }
 
-// Стиль для строки с несовпадением
-tr:has(td.mismatchValue) {
-  background-color: #fef2f2;
+  table {
+    font-size: 12px;
+  }
 
-  td:first-child {
-    border-left: 3px solid #dc2626;
+  .highSeverity,
+  .mediumSeverity,
+  .lowSeverity {
+    padding: 3px 8px;
+    font-size: 10px;
   }
 }

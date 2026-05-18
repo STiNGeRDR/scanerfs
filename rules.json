@@ -14,22 +14,22 @@
         },
         "PASS_MIN_DAYS": {
           "value": 1,
-          "severity": "medium",
+          "severity": "high",
           "description": "Минимальное количество дней между сменами пароля"
         },
         "PASS_WARN_AGE": {
           "value": 7,
-          "severity": "medium",
+          "severity": "low",
           "description": "Количество дней предупреждения перед истечением срока пароля"
         },
         "dcredit": {
           "value": 1,
-          "severity": "medium",
+          "severity": "low",
           "description": "Количество цифр (отрицательное = минимум)"
         },
         "difok": {
           "value": 3,
-          "severity": "medium",
+          "severity": "high",
           "description": "Минимальное количество измененных символов"
         },
         "minLength": {
