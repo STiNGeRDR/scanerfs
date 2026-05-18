@@ -119,12 +119,12 @@
       "discription": "Проверка настройки политики очистки данных",
       "policy": {
         "astra-swapwiper-control": {
-          "value": "АКТИВНО",
+          "value": true,
           "severity": "medium",
           "description": "Очистка раздела подкачки (swap)"
         },
         "astra-secdel-control": {
-          "value": "АКТИВНО",
+          "value": true,
           "severity": "medium",
           "description": "Затирание освобождаемых разделов жесткого диска"
         }

@@ -9,7 +9,7 @@ const execAsync = promisify(exec)
 type MashingDataPolicy = {
   [key: string]: {
     description: string
-    value: string
+    value: boolean
     severity: string
   }
 }
@@ -92,12 +92,12 @@ function createPolicy(services: Record<string, string>): MashingDataPolicy {
   return {
     'astra-secdel-control': {
       description: 'Обеспечивает гарантированное удаление данных с накопителей HDD',
-      value: services['astra-secdel-control'] || 'НЕАКТИВНО',
+      value: services['astra-secdel-control'] === 'АКТИВНО' ? true : false,
       severity: isSecdelActive ? 'low' : 'high',
     },
     'astra-swapwiper-control': {
       description: 'Очищает раздела подкачки (swap) от конфиденциальных данных при выключении системы',
-      value: services['astra-swapwiper-control'] || 'НЕАКТИВНО',
+      value: services['astra-swapwiper-control'] === 'АКТИВНО' ? true : false,
       severity: isSwapwiperActive ? 'low' : 'high',
     },
   }

@@ -19,13 +19,24 @@ export const scanBaseInfoTrpcRoute = trpc.procedure.mutation(async () => {
 
     const ipValue = IPInfo.status === 'fulfilled' ? IPInfo.value.stdout : IPInfo.reason?.message || 'Ошибка'
     const nameValue = nameUser.status === 'fulfilled' ? nameUser.value.stdout : nameUser.reason?.message || 'Ошибка'
-    const usersValue =
-      usersArray.status === 'fulfilled'
-        ? usersArray.value.stdout
-            .split('\n')
-            .filter((str) => Number(str.split(':')[2]) >= 1000)
-            .join('\n')
-        : usersArray.reason?.message || 'Ошибка'
+
+    // Парсим пользователей, фильтруя nobody и системных пользователей
+    let usersList: Array<{ username: string; uid: string; gid: string; home: string; shell: string }> = []
+
+    if (usersArray.status === 'fulfilled') {
+      const lines = usersArray.value.stdout.split('\n')
+      usersList = lines
+        .filter((line) => line.trim())
+        .map((line) => {
+          const [username, , uid, gid, , home, shell] = line.split(':')
+          return { username, uid, gid, home, shell }
+        })
+        .filter((user) => {
+          // Исключаем пользователя nobody и системных пользователей (UID < 1000)
+          const uid = parseInt(user.uid)
+          return user.username !== 'nobody' && uid >= 1000
+        })
+    }
 
     const anySuccess =
       IPInfo.status === 'fulfilled' || nameUser.status === 'fulfilled' || usersArray.status === 'fulfilled'
@@ -44,7 +55,7 @@ export const scanBaseInfoTrpcRoute = trpc.procedure.mutation(async () => {
         },
         userArray: {
           name: 'User Array',
-          output: usersValue.trim(),
+          output: usersList,
         },
       },
     }
@@ -57,17 +68,14 @@ export const scanBaseInfoTrpcRoute = trpc.procedure.mutation(async () => {
         IPInfo: {
           name: 'IP address',
           output: '',
-          error: 'Ошибка выполнения',
         },
         nameUser: {
           name: 'Name User',
           output: '',
-          error: 'Ошибка выполнения',
         },
         userArray: {
           name: 'User Array',
-          output: '',
-          error: 'Ошибка выполнения',
+          output: [],
         },
       },
     }

@@ -4,6 +4,14 @@ import { trpc } from '../../lib/trpc'
 
 import css from './index.module.scss'
 
+type UserInfo = {
+  username: string
+  uid: string
+  gid: string
+  home: string
+  shell: string
+}
+
 type BaseInfoResponse = {
   success: boolean
   message: string
@@ -18,7 +26,7 @@ type BaseInfoResponse = {
     }
     userArray: {
       name: string
-      output?: string
+      output?: UserInfo[]
     }
   }
   error?: string
@@ -37,22 +45,72 @@ const BaseInfo = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const getUsersList = (): UserInfo[] => {
+    if (!info?.services.userArray.output) {return []}
+    return info.services.userArray.output
+  }
+
+  const users = getUsersList()
+
   return (
     <div className={css.mainContainer}>
       {info ? (
         <>
-          <div className={css.blockInfo}>
-            <p>IP адрес АРМ</p>
-            <p>{info.services.IPInfo.output?.split(' ')[0]}</p>
+          <div className={css.infoGrid}>
+            <div className={css.blockInfo}>
+              <div className={css.blockIcon}>🛰</div>
+              <div className={css.blockContent}>
+                <p className={css.blockLabel}>IP адрес АРМ</p>
+                <p className={css.blockValue}>{info.services.IPInfo.output?.split(' ')[0] || 'Не определен'}</p>
+              </div>
+            </div>
+            <div className={css.blockInfo}>
+              <div className={css.blockIcon}>🖥</div>
+              <div className={css.blockContent}>
+                <p className={css.blockLabel}>Имя хоста</p>
+                <p className={css.blockValue}>{info.services.nameUser.output?.split(' ')[0] || 'Не определен'}</p>
+              </div>
+            </div>
+            <div className={css.blockInfo}>
+              <div className={css.blockIcon}>📊</div>
+              <div className={css.blockContent}>
+                <p className={css.blockLabel}>Всего пользователей</p>
+                <p className={css.blockValue}>{users.length}</p>
+              </div>
+            </div>
           </div>
-          <div className={css.blockInfo}>
-            <p>Имя пользователя</p>
-            <p>{info.services.nameUser.output?.split(' ')[0]}</p>
-          </div>
-          <div className={css.blockInfo}>
-            <p>IP адрес АРМ</p>
-            <p>{info.services.userArray.output?.split(' ')[0]}</p>
-          </div>
+
+          {users.length > 0 && (
+            <div className={css.usersSection}>
+              <h3 className={css.usersTitle}>
+                Список пользователей системы
+              </h3>
+              <div className={css.tableWrapper}>
+                <table className={css.usersTable}>
+                  <thead>
+                    <tr>
+                      <th>Имя пользователя</th>
+                      <th>UID</th>
+                      <th>GID</th>
+                      <th>Домашняя директория</th>
+                      <th>Оболочка</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {users.map((user, index) => (
+                      <tr key={index}>
+                        <td className={css.username}>{user.username}</td>
+                        <td>{user.uid}</td>
+                        <td>{user.gid}</td>
+                        <td className={css.homeDir}>{user.home}</td>
+                        <td className={css.shell}>{user.shell}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
         </>
       ) : null}
     </div>

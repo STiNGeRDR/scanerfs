@@ -17,10 +17,8 @@ export const scanUSBDeviceTrpcRoute = trpc.procedure.mutation(async () => {
     if (existsSync(USBSEARCH_PATH)) {
       command = `sudo ${USBSEARCH_PATH}`
       useUsbSearch = true
-      console.info('Используем usbSearch для анализа USB устройств')
     } else {
       command = 'journalctl --no-pager | grep -i "New USB device found"'
-      console.info('usbSearch не найден, используем journalctl')
     }
 
     const { stdout, stderr } = await execAsync(command, { timeout: 30000 })

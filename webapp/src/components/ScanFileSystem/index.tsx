@@ -3,7 +3,7 @@ import css from './index.module.scss'
 
 const returnCurrentValue = (value: boolean | number) =>{
 if (typeof(value) === "boolean"){
-  return value? 'Да' : "Нет"
+  return value? 'Активно' : "Неактивно"
  }
  else{
   return value
