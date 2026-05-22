@@ -10,6 +10,7 @@ import {
   getEventRegistrationPageRoute,
   getHomePageRoute,
   getIntegrityControlRoute,
+  getITNSearchRoute,
   getMandatoryAccessControlRoute,
   getMashingDataRoute,
   getPassworPolicyRoute,
@@ -52,8 +53,14 @@ export const Layout = () => {
               </li>
               <li className={css.menuItem}>
                 <Link className={css.menuLink} to={getUSBSearchRoute()}>
-                  <span className={css.linkIcon}>🖋</span>
+                  <span className={css.linkIcon}>⚠</span>
                   <span className={css.linkText}>USB подключения</span>
+                </Link>
+              </li>
+              <li className={css.menuItem}>
+                <Link className={css.menuLink} to={getITNSearchRoute()}>
+                  <span className={css.linkIcon}>⇆</span>
+                  <span className={css.linkText}>Подключения к ИТКС ОП</span>
                 </Link>
               </li>
             </ul>

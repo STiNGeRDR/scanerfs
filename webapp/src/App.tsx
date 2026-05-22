@@ -8,6 +8,7 @@ import { AccountingSettingsPage } from './pages/Audit/AccountingSettings'
 import { AdditionalSettingsPage } from './pages/Audit/AdditionalSettings'
 import { ClosedSoftwareEnvironmentPage } from './pages/Audit/ClosedSoftwareEnvironment'
 import { DeviceControlPage } from './pages/Audit/DeviceControl'
+import { ITNSearchPage } from './pages/Audit/ITNSearch'
 import { IntegrityControlPage } from './pages/Audit/IntegrityControl'
 import { MandatoryAccessControlPage } from './pages/Audit/MandatoryAccessControl'
 import { MashingDataPage } from './pages/Audit/MashingData'
@@ -35,8 +36,9 @@ export const App = () => {
             <Route path={routes.getClosedSoftwareEnvironmentRoute()} element={<ClosedSoftwareEnvironmentPage />} />
             <Route path={routes.getAdditionalSettingsRoute()} element={<AdditionalSettingsPage />} />
             <Route path={routes.getUSBSearchRoute()} element={<USBSearchPage/>} />
+            <Route path={routes.getITNSearchRoute()} element={<ITNSearchPage/>} />
           </Route>
-          A
+          
         </Routes>
       </BrowserRouter>
     </TrpcProvider>

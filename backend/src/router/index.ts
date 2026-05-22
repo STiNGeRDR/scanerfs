@@ -7,6 +7,7 @@ import { scanDeviceControlTrpcRoute } from './scanDeviceControl'
 import { scanEventRegistrationTrpcRoute } from './scanEventRegistration'
 import { scanFileSystemTrpcRoute } from './scanFileSystem'
 import { scanIntegrityControlTrpcRoute } from './scanIntegrityControl'
+import { scanITNConectionTrpcRoute } from './scanITNConection'
 import { scanMashingDataTrpcRoute } from './scanMashingData'
 import { scanPasswordPolicyTrpcRoute } from './scanPasswordPolicy'
 import { scanUSBDeviceTrpcRoute } from './scanUSBDevice'
@@ -20,6 +21,7 @@ export const trpcRouter = trpc.router({
   scanEventRegistration: scanEventRegistrationTrpcRoute,
   scanFileSystem: scanFileSystemTrpcRoute,
   scanIntegrityControl: scanIntegrityControlTrpcRoute,
+  scanITNConection: scanITNConectionTrpcRoute,
   scanMashingData: scanMashingDataTrpcRoute,
   scanPasswordPolicy: scanPasswordPolicyTrpcRoute,
   scanUSBDevice: scanUSBDeviceTrpcRoute,
